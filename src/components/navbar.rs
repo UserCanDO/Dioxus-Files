@@ -6,7 +6,8 @@ pub fn NavBar(cx: Scope) -> Element {
         div {
             class: "nav bg-orange",
             div{ class: "nav-brand", "Dioxus File"},
-            a{ class: "nav-item", "Home" }
+            a{ class: "nav-item active", "Home" }
+            a{ class: "nav-item", "About" }
         }
     });
 }
