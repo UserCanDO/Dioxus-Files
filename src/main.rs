@@ -3,7 +3,7 @@
 use dioxus::prelude::*;
 
 mod components;
-use crate::components::Tree;
+use crate::components::{SideBar, NavBar, Main};
 
 mod items;
 
@@ -13,9 +13,11 @@ fn main() {
 
 fn App(cx: Scope) -> Element {
     cx.render(rsx! {
+        style{ include_str!("css/style.css") }
         div {
-            "My Website",
-            Tree{}
+            NavBar{},
+            SideBar{},
+            Main{}
         }
     })
 }

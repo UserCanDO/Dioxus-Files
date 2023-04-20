@@ -1,43 +1,43 @@
-use dioxus::{prelude::*, html::style};
+use dioxus::prelude::*;
 
-#[derive(PartialEq, Props)]
-pub struct ContextProp{ 
+#[derive(Props)]
+pub struct ContextProp<'a>{ 
     #[props(default = false)]
     visible: bool,
-    top: i32, left:  i32
+    top: i32, left:  i32,
+    onclick: EventHandler<'a, MouseEvent>,
+
+    children: Element<'a>,
 }
-pub fn FolderContext(cx: Scope<ContextProp>) -> Element {
+pub fn FolderContext<'a>(cx: Scope<'a, ContextProp<'a>>) -> Element<'a> {
     let visible = if cx.props.visible { "context-visible" } else { "" };
     cx.render(rsx! {
         style { include_str!("../css/context.css") }
         div {
             class: "context-menu {visible}", style: "top: {cx.props.top}px; left: {cx.props.left}px;",
-            div{ class: "item", 
-                img{ src: "src/icons/folder.png" }, "add file" 
-            },
-            div{ class: "item", "add folder" },
-            div{ class: "item", "rename" },
-            div{ class: "item", "move" },
-            div{ class: "item", "copy" },
-            div{ class: "item", "paste" },
-            div{ class: "item", "delete" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5B9} add file" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5C1} add folder" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); },"\u{1F589} rename" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{2704} move" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5D0} copy" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5CD} paste" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5D1} delete" },
         }
     })
 }
 
-pub fn FileContext(cx: Scope<ContextProp>) -> Element {
+pub fn FileContext<'a>(cx: Scope<'a, ContextProp<'a>>) -> Element<'a> {
     let visible = if cx.props.visible { "context-visible" } else { "" };
     cx.render(rsx! {
         style { include_str!("../css/context.css") }
         div {
             class: "context-menu {visible}", style: "top: {cx.props.top}px; left: {cx.props.left}px;",
-            div{ class: "item", "edit" },
-            div{ class: "item", "rename" },
-            div{ class: "item", "move" },
-            div{ class: "item", "copy" },
-            div{ class: "item", "paste" },
-            hr{}
-            div{ class: "item", "delete" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F58E} edit" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1f589} rename" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{2704} move" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5D0} copy" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5CD} paste" },
+            div{ class: "item", onclick: move|event|{ cx.props.onclick.call(event); }, "\u{1F5D1} delete" },
         }
     })
 }

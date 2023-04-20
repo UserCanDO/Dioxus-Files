@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use crate::{items::TreeItem, components::FolderContext};
+use crate::{items::TreeItem, components::{FolderContext, FileContext}};
 
 fn test_tree()-> TreeItem{ 
   return TreeItem::Folder("Root".to_string(), vec![
@@ -24,7 +24,28 @@ struct  TreeItemModelProp{ item: TreeItem }
 
 fn TreeItemModel(cx: Scope<TreeItemModelProp>)->Element{
     match &cx.props.item {
-        TreeItem::File(name) => return cx.render(rsx!( li{ "{name}" })),
+        TreeItem::File(name) => {
+            let context_visible = use_state(cx, || false);
+            let context_position = use_state(cx,|| (0, 0));
+
+            return cx.render(rsx!( 
+                li{
+                    class:"file",
+                    prevent_default: "oncontextmenu",
+                    oncontextmenu: move |event| {
+                        context_visible.set(false);
+
+                        context_position.set(event.page_coordinates().to_i32().to_tuple());
+                        context_visible.set(true);
+                        
+                    },
+                    "{name}",
+                    FileContext{ visible: **context_visible, top: context_position.1, left: context_position.0, onclick: move |__event| {
+                      context_visible.set(false);
+                    } } 
+                }
+            )) 
+        },
         TreeItem::Folder( name, children) =>{
             let is_nested = use_state(cx, || true);
 
@@ -47,7 +68,9 @@ fn TreeItemModel(cx: Scope<TreeItemModelProp>)->Element{
                         
                     },
                     "{name}" },
-                    FolderContext{ visible: **context_visible, top: context_position.1, left: context_position.0 },
+                    FolderContext{ visible: **context_visible, top: context_position.1, left: context_position.0, onclick: move |__event| {
+                      context_visible.set(false);
+                    } },
                 ul{
                     class: "{nested}",
                     children.iter().map(|child| rsx!{
