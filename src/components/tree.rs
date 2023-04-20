@@ -28,9 +28,11 @@ fn TreeItemModel(cx: Scope<TreeItemModelProp>)->Element{
             let context_visible = use_state(cx, || false);
             let context_position = use_state(cx,|| (0, 0));
 
+            let hilight = if *context_visible.get(){ "text-orange"} else { "" };
+
             return cx.render(rsx!( 
                 li{
-                    class:"file",
+                    class:"file {hilight}",
                     prevent_default: "oncontextmenu",
                     oncontextmenu: move |event| {
                         context_visible.set(false);
@@ -54,10 +56,11 @@ fn TreeItemModel(cx: Scope<TreeItemModelProp>)->Element{
 
             let nested = if *is_nested.get() { "nested" } else { "nested active" };
             let caret = if *is_nested.get() { "caret" } else { "caret caret-down" };
+            let hilight = if *context_visible.get(){ "text-orange"} else { "" };
             
             return cx.render(rsx!(
                 li{span{ 
-                    class: "{caret}",
+                    class: "{caret} {hilight}",
                     prevent_default: "oncontextmenu",
                     onclick: move |__event| is_nested.set(!is_nested.get()),
                     oncontextmenu: move |event| {

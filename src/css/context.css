@@ -2,7 +2,8 @@
 	position: fixed;
 	z-index: 10000;
 	width: 150px;
-	background: white;
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(8px);
 	border-radius: 5px;
 	transform: scale(0);
 	transform-origin: top left;
@@ -24,7 +25,8 @@
 }
 
 .context-menu > .item:hover {
-	background: wheat;
+	background: rgba(244, 81, 30, 0.5);
+	color: white;
 }
 
 hr{

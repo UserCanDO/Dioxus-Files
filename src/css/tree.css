@@ -15,6 +15,10 @@ ul, #myUL { list-style-type:none; }
     margin-right: 5px;
 }
 
+.caret:hover{
+    color: #f4511e;
+}
+
 /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
 .caret-down::before {
     content: "\1F5C1";
@@ -30,6 +34,10 @@ ul, #myUL { list-style-type:none; }
 	content: "\1F5B9";
     color: gray;
     margin-right: 5px;
+}
+
+.file:hover{
+    color: #f4511e;
 }
 
 /* Hide the nested list */
